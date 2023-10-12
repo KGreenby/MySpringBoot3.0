@@ -33,5 +33,7 @@ public class MyRunner implements ApplicationRunner {
         System.out.println("myboot.fullName= " +fullName);
 
         System.out.println("Port Number = " + environment.getProperty("local.server.port"));
+
+        System.out.println("git test");
     }
 }
