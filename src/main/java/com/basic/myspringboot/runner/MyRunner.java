@@ -1,5 +1,8 @@
 package com.basic.myspringboot.runner;
 
+import com.basic.myspringboot.dto.Customer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -9,7 +12,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 @Component
-@Order(1)
+@Order(2)
 public class MyRunner implements ApplicationRunner {
     @Value("${myboot.name}")
     private String name;
@@ -23,17 +26,24 @@ public class MyRunner implements ApplicationRunner {
     @Autowired
     private Environment environment;
 
+    @Autowired
+    private Customer customer;
+
+    Logger logger = LoggerFactory.getLogger(MyRunner.class);
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        System.out.println("VM Argument foo = " + args.containsOption("foo"));
-        System.out.println("Program Argument bar = " + args.containsOption("bar"));
+        logger.debug("VM Argument foo = {}, Program Argument bar = {} ",
+                args.containsOption("foo"),
+                args.containsOption("bar"));
 
-        System.out.println("myboot.name= " + name);
-        System.out.println("myboot.age= " + age);
-        System.out.println("myboot.fullName= " +fullName);
+        logger.info("myboot.name = {} ", name);
+        logger.info("myboot.age = {} ", age);
+        logger.info("myboot.fullName = {} ", fullName);
 
-        System.out.println("Port Number = " + environment.getProperty("local.server.port"));
+        logger.info("Port Number = {} ", environment.getProperty("local.server.port"));
+        logger.info("Customer의 현재모드 : {} ", customer.getName());
 
-        System.out.println("git test!!");
+        logger.info("Logger 클래스 이름 {}", logger.getClass().getName());
     }
 }
